@@ -1,1 +1,92 @@
-Loading...
+SDL_Color GetPixel (SDL_Surface* pSurface, int x, int y)
+{
+
+  SDL_Color color;
+  Uint32 col = 0;
+  char *pPosition = (char*) pSurface -> pixels;
+  pPosition += (pSurface -> pitch * y);
+  pPosition += (pSurface->format->BytesPerPixel * x);
+  memcpy (&col, pPosition, pSurface->format->BytesPerPixel);
+  SDL_GetRGB (col, pSurface->format, &color.r, &color.g, &color.b);
+  return (color);
+}
+
+int detecter_collision_background (SDL_Surface *image, SDL_Rect position)
+{
+  SDL_Color color;
+  color = GetPixel (image, position.x, position.y+27/2);
+  if (color.r==255 && color.g==255 && color.b==255) return 1;
+  return 0;
+}
+int detecter_Pin (SDL_Surface *image, SDL_Rect position)
+{
+  SDL_Color color;
+  color = GetPixel (image, position.x, position.y+27/2);
+  if (color.r==0 && color.g==0 && color.b==0) return 1;
+  return 0;
+}
+
+
+
+
+
+
+
+
+
+bool check_collision( std::vector<SDL_Rect> &A, std::vector<SDL_Rect> &B )
+{
+    //The sides of the rectangles
+    int leftA, leftB;
+    int rightA, rightB;
+    int topA, topB;
+    int bottomA, bottomB;
+
+    //Go through the A boxes
+    for( int Abox = 0; Abox < A.size(); Abox++ )
+    {
+        //Calculate the sides of rect A
+        leftA = A[ Abox ].x;
+        rightA = A[ Abox ].x + A[ Abox ].w;
+        topA = A[ Abox ].y;
+        bottomA = A[ Abox ].y + A[ Abox ].h;
+        
+        //Go through the B boxes    
+        for( int Bbox = 0; Bbox < B.size(); Bbox++ )
+        {
+            //Calculate the sides of rect B
+            leftB = B[ Bbox ].x;
+            rightB = B[ Bbox ].x + B[ Bbox ].w;
+            topB = B[ Bbox ].y;
+            bottomB = B[ Bbox ].y + B[ Bbox ].h;
+            
+            //If no sides from A are outside of B
+            if( ( ( bottomA <= topB ) || ( topA >= bottomB ) || ( rightA <= leftB ) || ( leftA >= rightB ) ) == false )
+            {
+                //A collision is detected
+                return true;
+            }
+        }
+    }
+    
+	 }
+   else return false ; 
+	 
+	 
+ }
+
+ if (CollisionBB(image,image1,position,position1))
+ { 
+	  SDL_FillRect ( screen ,  NULL , SDL_MapRGB ( screen -> format,  255 ,  255 ,  255 ) ); 
+	            SDL_Flip(screen);  
+	 }
+						  
+break ;  
+}
+}
+}
+
+
+
+return 0 ; 
+}
